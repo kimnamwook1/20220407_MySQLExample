@@ -1,7 +1,6 @@
 #include <iostream>
 #include <Windows.h>
 
-
 #include "jdbc/mysql_connection.h"
 #include "jdbc/cppconn/driver.h"
 #include "jdbc/cppconn/exception.h"
@@ -33,7 +32,7 @@ int main()
 		driver = get_driver_instance();
 
 		//연결 버튼 누르기
-		connection = driver->connect("tcp://work.junios.net:33306", "ygl", "ygl123");
+		connection = driver->connect("tcp://127.0.0.1:3306", "root", "12dnjf3dlfwjsdur@");
 
 		if (connection == nullptr)
 		{
@@ -42,7 +41,7 @@ int main()
 		}
 
 		//사용 데이터베이스 선정(use)
-		connection->setSchema("ygl");
+		connection->setSchema("logindata");
 
 		//preparedStatement = connection->prepareStatement("insert into guestbook ( name, memo ) value ( ?, ? )");
 		//preparedStatement->setString(1, "junios");
@@ -51,13 +50,13 @@ int main()
 
 		//query
 		statement = connection->createStatement();
-		resultset = statement->executeQuery("select * from guestbook");
+		resultset = statement->executeQuery("select * from new_table ");
 
 		for (; resultset->next();)
 		{
-			cout << resultset->getInt("idx") << " : " <<
-				Utf8ToMultiByte(resultset->getString("name")) << " : " <<
-				Utf8ToMultiByte(resultset->getString("memo")) << endl;
+			cout << resultset->getInt("id") << " : " <<
+				Utf8ToMultiByte(resultset->getString("wincount")) << " : " <<
+				Utf8ToMultiByte(resultset->getString("totalgameplay")) << endl;
 		}
 
 		delete resultset;
@@ -72,9 +71,6 @@ int main()
 		cout << " (MySQL error code: " << e.getErrorCode();
 		cout << ", SQLState: " << e.getSQLState() << " )" << endl;
 	}
-
-
-
 	return 0;
 }
 
